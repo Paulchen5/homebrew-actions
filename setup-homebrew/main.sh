@@ -42,16 +42,17 @@ function git_retry {
 }
 
 function install_homebrew {
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # Set the custom Homebrew prefix (install location)
+    export HOMEBREW_PREFIX="$HOME/.homebrew"
+    export NONINTERACTIVE=1
 
-    # Add Homebrew to PATH for both macOS and Linux
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    else
-        (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> ~/.profile
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    fi
+    # Install Homebrew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Set up Homebrew in your environment
+    echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.bash_profile
+    echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.zprofile
+    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 }
 
 # Check brew's existence
@@ -65,7 +66,7 @@ if ! which brew &>/dev/null; then
             exit 1
         fi
 
-        install_homebrew
+        install_homebrew()
         PATH="/home/linuxbrew/.linuxbrew/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
         if ! which brew &>/dev/null; then
