@@ -44,10 +44,9 @@ function git_retry {
 function install_homebrew {
     # Set the custom Homebrew prefix (install location)
     export HOMEBREW_PREFIX="$HOME/.homebrew"
-    export NONINTERACTIVE=1
 
     # Install Homebrew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" "" --prefix="$HOMEBREW_PREFIX"
+    HOMEBREW_PREFIX="$HOMEBREW_PREFIX" CI=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Set up Homebrew in your environment
     echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.bash_profile
