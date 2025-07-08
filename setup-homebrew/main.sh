@@ -45,9 +45,11 @@ function install_homebrew {
     cd $HOME
     git clone https://github.com/Homebrew/brew homebrew
 
-    eval "$(homebrew/bin/brew shellenv)"
-    brew update --force --quiet
-    chmod -R go-w "$(brew --prefix)/share/zsh"
+    echo 'export PATH="${HOME}/homebrew/bin:$PATH"' >> ~/.bash_profile
+    echo 'export PATH="${HOME}/homebrew/bin:$PATH"' >> ~/.zshrc
+
+    export PATH="${HOME}/homebrew/bin:$PATH"
+
 }
 
 # Check brew's existence
