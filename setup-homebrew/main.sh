@@ -47,7 +47,7 @@ function install_homebrew {
     export NONINTERACTIVE=1
 
     # Install Homebrew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" "" --prefix="$HOMEBREW_PREFIX"
 
     # Set up Homebrew in your environment
     echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.bash_profile
