@@ -66,7 +66,7 @@ if ! which brew &>/dev/null; then
             exit 1
         fi
 
-        install_homebrew()
+        install_homebrew
         PATH="/home/linuxbrew/.linuxbrew/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
         if ! which brew &>/dev/null; then
