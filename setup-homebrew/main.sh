@@ -49,7 +49,6 @@ function install_homebrew {
     echo 'export PATH="${HOME}/homebrew/bin:$PATH"' >> ~/.zshrc
 
     export PATH="${HOME}/homebrew/bin:$PATH"
-
 }
 
 # Check brew's existence
@@ -72,6 +71,8 @@ if ! which brew &>/dev/null; then
         fi
     fi
 fi
+
+export HOMEBREW_GITHUB_API_TOKEN=$TOKEN
 
 # Set basic variables
 HOMEBREW_PREFIX="$(brew --prefix)"
