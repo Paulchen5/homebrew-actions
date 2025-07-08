@@ -42,16 +42,12 @@ function git_retry {
 }
 
 function install_homebrew {
-    # Set the custom Homebrew prefix (install location)
-    export HOMEBREW_PREFIX="$HOME/.homebrew"
+    cd $HOME
+    git clone https://github.com/Homebrew/brew homebrew
 
-    # Install Homebrew
-    HOMEBREW_PREFIX="$HOMEBREW_PREFIX" CI=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-    # Set up Homebrew in your environment
-    echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.bash_profile
-    echo "eval \$($HOMEBREW_PREFIX/bin/brew shellenv)" >> ~/.zprofile
-    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+    eval "$(homebrew/bin/brew shellenv)"
+    brew update --force --quiet
+    chmod -R go-w "$(brew --prefix)/share/zsh"
 }
 
 # Check brew's existence
