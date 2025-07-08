@@ -42,7 +42,7 @@ function git_retry {
 }
 
 function install_homebrew {
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Add Homebrew to PATH for both macOS and Linux
     if [[ "$(uname -s)" == "Darwin" ]]; then
