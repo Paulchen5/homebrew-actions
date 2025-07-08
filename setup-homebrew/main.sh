@@ -136,7 +136,7 @@ fi
 ohai "Fetching Homebrew/brew..."
 if [[ "$GITHUB_REPOSITORY" =~ ^.+/brew$ ]]; then
     cd "$HOMEBREW_REPOSITORY"
-    git remote set-url origin "https://${GITHUB_SERVER_URL}/$GITHUB_REPOSITORY"
+    git remote set-url origin "${GITHUB_SERVER_URL}/$GITHUB_REPOSITORY"
     git_retry fetch --tags origin "$GITHUB_SHA" '+refs/heads/*:refs/remotes/origin/*'
     git_retry remote set-head origin --auto
     git checkout --force -B main FETCH_HEAD
