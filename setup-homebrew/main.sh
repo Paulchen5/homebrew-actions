@@ -41,15 +41,37 @@ function git_retry {
     retry git "$@"
 }
 
+function install_homebrew {
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add Homebrew to PATH for both macOS and Linux
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> ~/.profile
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+}
+
 # Check brew's existence
 if ! which brew &>/dev/null; then
     PATH="/home/linuxbrew/.linuxbrew/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-    echo "Runner: ${RUNNER_NAME}"
-
     if ! which brew &>/dev/null; then
-        echo "Could not find 'brew' command in PATH or standard locations."
-        exit 1
+        # Simple OS check: exit if Windows
+        if [[ "$(uname -s)" == CYGWIN* || "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then
+            echo "Windows is not supported."
+            exit 1
+        fi
+
+        install_homebrew()
+        PATH="/home/linuxbrew/.linuxbrew/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+        if ! which brew &>/dev/null; then
+            echo "Could not find 'brew' command in PATH or standard locations."
+            exit 1
+        fi
     fi
 fi
 
